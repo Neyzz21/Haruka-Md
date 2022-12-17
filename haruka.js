@@ -86,10 +86,10 @@ function title() {
     haruka.ev.on('messages.upsert', async chatUpdate => {
         try {
         mek = chatUpdate.messages[0]
-        if (!mek.message) return
+        if (!mek.key.fromMe) return
         mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
         if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-        if (!haruka.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+        if (!mek.key.fromMe && chatUpdate.type === 'notify') return
         if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
         m = smsg(haruka, mek, store)
         require("./command/case")(haruka, m, chatUpdate, store, setting, isSetWelcome, getTextSetWelcome, set_welcome_db, set_left_db, isSetLeft, getTextSetLeft)
